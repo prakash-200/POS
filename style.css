@@ -1,0 +1,8 @@
+ body div:first-child{
+    background-color: #D1D1D1;
+ }
+ 
+.services{
+    height: 120px;
+    width: 400px;
+}

@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>POS</title>
+    <link rel="stylesheet" href="billing.css" />
+    <!-- Bootstrap CDN -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+  </head>
+  <body>
+    <header class="header"></header>
+    <main>
+      <div class="left-section">
+        <div class="left-start-section">
+          <div class="total-price fw-bold">
+            Change: <span id="balance">0.00</span>
+          </div>
+          <div class="d-flex justify-content-between m-2 fw-medium">
+            <label>Amount</label>
+            <p id="amount">$0.00</p>
+          </div>
+          <div class="d-flex justify-content-between m-2 fw-medium">
+            <label>GST Amount</label>
+            <p id="gstAmount">$0.00</p>
+          </div>
+          <hr class="" />
+          <div class="d-flex justify-content-between text-danger fs-5 fw-bold m-2">
+            Payable: <span id="payableAmount" class="fw-medium">$0.00</span>
+          </div>
+          <hr />
+        </div>
+        <div class="left-center-section w-100">
+          <div class="d-flex justify-content-between text-primary fw-bold">
+            Tender: <span id="tender" class="" style="padding-right: 40px;">$0.00</span>
+          </div>
+          <div class="d-flex justify-content-between text-primary  fw-bold">
+            Change: <span id="change" class="" style="padding-right: 40px;">$0.00</span>
+          </div>
+        </div>
+        <div class="left-end-section">
+          <div class="left-end-top">
+            <form action="" method="POST">
+              <div>
+                Item Name <br />
+                <select class="form-select" id="itemName">
+                  <option selected disabled>Select an Item</option>
+                </select>
+              </div>
+              <div>
+                Quantity <br />
+                <input type="number" name="quantity" id="quantity" required />
+              </div>
+              <div>
+                <br />
+                <button name="add" id="addItem">Add</button>
+              </div>
+            </form>
+          </div>
+          <br />
+          <div class="left-end-bottom">
+            <div class="left-end-bottom-start">
+              <div>
+                <button name="lang">Language</button>
+                <div>
+                  <center>Table No</center>
+                  <input type="number" name="table-no" id="table-no" />
+                </div>
+                <div>
+                  <center>No of Cover</center>
+                  <input type="number" name="cover-nos" id="cover-nos" />
+                </div>
+              </div>
+            </div>
+            <div class="left-end-bottom-center">
+              <div class="number-grid">
+                <button name="cal" class="numberButton" data-value="7">
+                  7
+                </button>
+                <button name="cal" class="numberButton" data-value="8">
+                  8
+                </button>
+                <button name="cal" class="numberButton" data-value="9">
+                  9
+                </button>
+                <button name="cal" class="numberButton" data-value="4">
+                  4
+                </button>
+                <button name="cal" class="numberButton" data-value="5">
+                  5
+                </button>
+                <button name="cal" class="numberButton" data-value="6">
+                  6
+                </button>
+                <button name="cal" class="numberButton" data-value="1">
+                  1
+                </button>
+                <button name="cal" class="numberButton" data-value="2">
+                  2
+                </button>
+                <button name="cal" class="numberButton" data-value="3">
+                  3
+                </button>
+                <button name="cal" class="numberButton" data-value="0">
+                  0
+                </button>
+                <button name="cal">.</button>
+                <button name="cal">-</button>
+              </div>
+            </div>
+            <div class="left-end-bottom-end">
+              <div>
+                <button name="ac" id="removeButton">AC</button>
+              </div>
+              <div>
+                <button name="clear" id="clearButton">Clear</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="right-section">
+        <div class="right-top-section">
+          <div class="sidebar">
+            <div class="sidebar-nav">
+              <button class="up-btn">
+                <img src="" alt="" class="btn-icon" />
+              </button>
+              <button class="sidebar-btns">Steamed Bun</button>
+              <button class="sidebar-btns">Steamed Timsum</button>
+              <button class="sidebar-btns">Beverage</button>
+              <button class="sidebar-btns">Bake</button>
+              <button class="sidebar-btns">Noodle/<br />Dumplinge</button>
+              <button class="sidebar-btns">Porridge</button>
+              <button class="down-btn">
+                <img src="" alt="" class="btn-icon" />
+              </button>
+            </div>
+          </div>
+          <div class="inventory">
+            
+          </div>
+        </div>
+        <div class="right-bottom-section">
+          <div class="box1">
+            <button class="box1-btn1">New Bill</button>
+            <button class="box1-btn2">Price Amendment</button>
+          </div>
+          <div class="box2">
+            <button class="box2-btn1" id="numberButton" data-value="2">$2</button>
+          </div>
+          <div class="box3">
+            <button class="box3-btn1" id="numberButton" data-value="10">$10</button>
+          </div>
+          <div class="box4">
+            <button class="box4-btn1">Open Cash Box</button>
+            <button class="box4-btn2">Terminate Transaction</button>
+          </div>
+          <div class="box5">
+            <button class="box5-btn1">Goods Return</button>
+            <button class="box5-btn2">Print</button>
+          </div>
+          <div class="box6">
+            <button class="box6-btn1">Cancel Item</button>
+          </div>
+          <div class="box7">
+            <button class="box7-btn1">Add Item</button>
+          </div>
+          <div class="box8">
+            <button class="box8-btn1" id="billButton">
+              <i class="fa-solid fa-play" style="color: #000000"
+                ><span
+                  class="text-light mx-1"
+                  style="
+                    font-family: 'Trebuchet MS', 'Lucida Sans Unicode',
+                      'Lucida Grande', 'Lucida Sans', Arial, sans-serif;">Bill</span></i>
+            </button>
+          </div>
+          <div class="box9">
+            <button class="box9-btn1" id="five" data-value="5">$5</button>
+          </div>
+          <div class="box10">
+            <button class="box10-btn1" id="fifty" data-value="50">$50</button>
+          </div>
+          <div class="box11">
+            <button class="box11-btn1">Gift Voucher</button>
+          </div>
+          <div class="box12">
+            <button class="box12-btn1">Reserved Transaction</button>
+            <button class="box12-btn2">Restore</button>
+          </div>
+          <div class="box13">
+            <button class="box13-btn1">Delete All Transaction</button>
+          </div>
+          <div class="box14">
+            <button class="box14-btn1">
+              <a href="index.html" class="text-light text-decoration-none"
+                >Main Menu</a
+              >
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
+    <script>
+
+      // Function to display inventory items from local storage
+function displayInventoryItems() {
+    const inventoryDiv = $(".inventory");
+    inventoryDiv.empty(); // Clear existing content
+
+    // Get inventory data from local storage
+    const inventoryItems = JSON.parse(localStorage.getItem("inventory")) || [];
+
+    // Loop through each item in the inventory and create an image element
+    inventoryItems.forEach(item => {
+        const itemButton = $(`
+            <button>
+                <img src="${item.image}" alt="${item.name}" />
+            </button>
+        `);
+        inventoryDiv.append(itemButton);
+    });
+}
+
+// Call the function to display items on page load
+$(document).ready(function() {
+    displayInventoryItems();
+});
+
+      
+    let payableAmount = 0;
+    let gstAmount = 0;
+    let totalAmount = 0;
+
+    // For display amount from local storage
+    $(document).ready(function () {
+        totalAmount = parseFloat(localStorage.getItem("totalAmount"));
+
+        // Calculate GST (7%)
+        gstAmount = totalAmount * 0.07;
+
+        // Calculate payable amount (total + GST)
+        payableAmount = totalAmount + gstAmount;
+
+        // Update the amounts on the page
+        $("#amount").text(`$${totalAmount.toFixed(2)}`);
+        $("#gstAmount").text(`$${gstAmount.toFixed(2)}`);
+        $("#payableAmount").text(`$${payableAmount.toFixed(2)}`);
+    });
+
+    // Existing variables
+let tenderAmount = 0;
+
+// Function to update tender amount and balance
+function updateTender(value) {
+    // Add the clicked button value to the tender amount
+    tenderAmount += value;
+
+    // Display the updated tender amount
+    $("#tender").text(`$${tenderAmount.toFixed(2)}`);
+
+    // Calculate and display the change
+    const change = tenderAmount - payableAmount;
+    $("#change").text(`$${change.toFixed(2)}`);
+
+    // Update the balance amount
+    $("#balance").text(`$${change.toFixed(2)}`);
+}
+
+// Event listeners for the tender buttons
+$("#five").on("click", function () {
+    updateTender(5);
+});
+
+$("#fifty").on("click", function () {
+    updateTender(50);
+});
+
+$("#numberButton[data-value='2']").on("click", function () {
+    updateTender(2);
+});
+
+$("#numberButton[data-value='10']").on("click", function () {
+    updateTender(10);
+});
+
+// Function to save sales record in localStorage
+function saveSalesRecord(itemName, quantity, totalPrice) {
+            const salesRecord = {
+                itemName: itemName,
+                quantity: quantity,
+                totalPrice: parseFloat(totalPrice), // Ensure it's a number
+                date: new Date().toISOString() // Save the current date and time
+            };
+
+            const existingRecords = JSON.parse(localStorage.getItem("salesRecords")) || [];
+            existingRecords.push(salesRecord);
+            localStorage.setItem("salesRecords", JSON.stringify(existingRecords));
+        }
+
+        // Handle form submission
+        document.getElementById("billingForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            // Get values from the form
+            const itemName = document.getElementById("itemName").value;
+            const quantity = document.getElementById("quantity").value;
+            const totalPrice = document.getElementById("totalPrice").value;
+
+            // Save the sales record
+            saveSalesRecord(itemName, quantity, totalPrice);
+
+            // Clear the form
+            this.reset();
+
+            // Optional: Alert user of success
+            alert("Sales record added successfully!");
+        });
+
+
+    </script>
+  </body>
+</html>

@@ -1,0 +1,35 @@
+// Existing variables
+let tenderAmount = 0;
+
+// Function to update tender amount and balance
+function updateTender(value) {
+    // Add the clicked button value to the tender amount
+    tenderAmount += value;
+
+    // Display the updated tender amount
+    $("#tender").text(`$${tenderAmount.toFixed(2)}`);
+
+    // Calculate and display the change
+    const change = tenderAmount - payableAmount;
+    $("#change").text(`$${change.toFixed(2)}`);
+
+    // Update the balance amount
+    $("#balance").text(`$${change.toFixed(2)}`);
+}
+
+// Event listeners for the tender buttons
+$("#five").on("click", function () {
+    updateTender(5);
+});
+
+$("#fifty").on("click", function () {
+    updateTender(50);
+});
+
+$("#numberButton[data-value='2']").on("click", function () {
+    updateTender(2);
+});
+
+$("#numberButton[data-value='10']").on("click", function () {
+    updateTender(10);
+});
