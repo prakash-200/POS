@@ -18,31 +18,27 @@
     />
   </head>
   <body>
-    <header class="header"></header>
-    <main>
-      <div class="left-section">
-        <div class="left-start-section">
-          <div class="total-price">
+    <main class="">
+      <div class="left-section vh-100">
+        <div class="left-start-section h-50">
+          <div class="total-price fw-bold">
             Total Price: $<span id="payableAmount">0.00</span>
           </div>
           <div class="table">
             <table id="addedItemsTable" class="">
               <thead>
                 <tr>
-                  <th>Item</th>
-                  <th>Quantity</th>
-                  <th>Unit Price</th>
-                  <th>Total Price</th>
+                  <th class="fw-medium">Item</th>
+                  <th class="fw-medium">Quantity</th>
+                  <th class="fw-medium">Unit Price</th>
+                  <th class="fw-medium">Total Price</th>
                 </tr>
               </thead>
               <tbody id="addedItemsBody"></tbody>
             </table>
           </div>
         </div>
-        <div class="left-center-section h-25">
-          <p></p>
-        </div>
-        <div class="left-end-section" style="position: sticky">
+        <div class="left-end-section h-50" style="position: sticky">
           <div class="left-end-top">
             <form action="" method="POST">
               <div>
@@ -121,38 +117,41 @@
             </div>
             <div class="left-end-bottom-end">
               <div>
-                <button name="ac" id="removeButton">AC</button>
+                <button name="ac" id="removeButton" style="padding-right: 50px;">AC</button>
               </div>
               <div>
-                <button name="clear" id="clearButton">Clear</button>
+                <button name="clear" id="clearButton" style="padding-right: 50px;">Clear</button>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="right-section">
-        <div class="right-top-section">
+      <div class="right-section vh-100" style="background-color: #EAEDF7;">
+        <div class="right-top-section h-75" style="padding-bottom: 100px">
           <div class="sidebar">
             <div class="sidebar-nav">
-              <button class="up-btn">
-                <img src="" alt="" class="btn-icon" />
-              </button>
-              <button class="sidebar-btns">Steamed Bun</button>
-              <button class="sidebar-btns">Steamed Timsum</button>
-              <button class="sidebar-btns">Beverage</button>
-              <button class="sidebar-btns">Bake</button>
-              <button class="sidebar-btns">Noodle/<br />Dumplinge</button>
-              <button class="sidebar-btns">Porridge</button>
-              <button class="down-btn">
-                <img src="" alt="" class="btn-icon" />
-              </button>
+              <div class="scroll-container">
+                <button class="scroll-up w-100 d-flex">
+                  <i
+                    class="fas fa-chevron-up"
+                    style="color: #000000; padding-left: 40px"
+                  ></i>
+                </button>
+                <div class="scrollable-categories"></div>
+                <button class="scroll-down w-100 d-flex">
+                  <i
+                    class="fas fa-chevron-down"
+                    style="color: #000000; padding-left: 40px"
+                  ></i>
+                </button>
+              </div>
             </div>
           </div>
-          <div class="inventory">
+          <div class="inventory" style="background-color: aliceblue">
             <!-- Images loaded based on inventory items -->
           </div>
         </div>
-        <div class="right-bottom-section">
+        <div class="right-bottom-section h-50" style="margin-top: -80px">
           <div class="box1">
             <button class="box1-btn1">New Bill</button>
             <button class="box1-btn2">Price Amendment</button>
@@ -178,20 +177,18 @@
             <button class="box7-btn1">Add Item</button>
           </div>
           <div class="box8">
-            <button class="box8-btn1">
-              <a href="billing2.html" class="text-light text-decoration-none"
-                ><i class="fa-solid fa-play" style="color: #000000"
-                  ><span
+            <!-- <a href="l" class="text-light text-decoration-none"> -->
+              <button class="box8-btn1">
+                <i class="fa-solid fa-play" style="color: #000000">
+                  <span
                     class="text-light mx-1"
                     style="
                       font-family: 'Trebuchet MS', 'Lucida Sans Unicode',
                         'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-                    "
-                    >Bill</span
-                  ></i
-                ></a
-              >
-            </button>
+                    ">Bill</span>
+                </i>
+              </button>
+            <!-- </a> -->
           </div>
           <div class="box9">
             <button class="box9-btn1">$5</button>
@@ -210,11 +207,9 @@
             <button class="box13-btn1">Delete All Transaction</button>
           </div>
           <div class="box14">
-            <button class="box14-btn1">
-              <a href="index.html" class="text-light text-decoration-none"
-                >Main Menu</a
-              >
-            </button>
+            <a href="index.html" class="text-light text-decoration-none">
+              <button class="box14-btn1">Main Menu</button>
+            </a>
           </div>
         </div>
       </div>
@@ -224,118 +219,243 @@
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 
     <script>
-      const inventory =
-        JSON.parse(localStorage.getItem("inventory")) || sampleInventory;
-      let totalCost = 0;
+  const inventory = JSON.parse(localStorage.getItem("inventory")) || sampleInventory;
+  let totalCost = 0;
 
-      function populateItemDropdown() {
-        const itemSelect = $("#itemName");
-        inventory.forEach((item) => {
-          itemSelect.append(
-            `<option value="${item.name.toLowerCase()}">${
-              item.name
-            } - $${parseFloat(item.price).toFixed(2)}</option>`
-          );
-          // Load images dynamically based on inventory
-          $(".inventory").append(
-            `<button class="image" data-name="${item.name.toLowerCase()}" data-price="${
-              item.price
-            }"><img src="${item.image}" alt="${
-              item.name
-            }" class="items" /></button>`
-          );
-        });
-      }
+  function populateItemDropdown() {
+    const itemSelect = $("#itemName");
+    inventory.forEach((item) => {
+      itemSelect.append(
+        `<option value="${item.name.toLowerCase()}">${item.name} - $${parseFloat(item.price).toFixed(2)}</option>`
+      );
+    });
+  }
 
-      // Add item to billing table
-      $("#addItem").on("click", function (e) {
-        e.preventDefault();
-        const itemName = $("#itemName").val();
-        const quantity = parseInt($("#quantity").val()) || 1;
-        const itemPrice = parseFloat(
-          inventory.find((item) => item.name.toLowerCase() === itemName).price
+  // Display Images under inventory
+  function displayInventoryItems() {
+    const inventoryDiv = $(".inventory");
+    const snackNames = []; // Array to hold snack names for scrolling
+
+    inventory.forEach((item) => {
+      if (item.category === "Drinks") {
+        // Load images dynamically based on inventory
+        inventoryDiv.append(
+          `<button class="image" style="height: 100px; width: 200px;" data-name="${item.name.toLowerCase()}" data-price="${item.price}"><img src="${item.image}" alt="${item.name}" class="items" /></button>`
         );
-        const totalItemPrice = itemPrice * quantity;
+      } else if (item.category === "Snacks") {
+        snackNames.push(item.name); // Add snack names to the array
+      }
+    });
 
-        totalCost += totalItemPrice;
-        $("#payableAmount").text(totalCost.toFixed(2));
+    // Display snack names in the scrollable area
+    const snackContainer = $(".scrollable-categories");
+    snackNames.forEach((name) => {
+      snackContainer.append(
+        `<div class="category-item bg-primary" data-value="${name}">${name}</div>`
+      );
+    });
+  }
 
-        $("#addedItemsBody").append(`
-                <tr>
-                    <td>${itemName}</td>
-                    <td>${quantity}</td>
-                    <td>$${itemPrice.toFixed(2)}</td>
-                    <td>$${totalItemPrice.toFixed(2)}</td>
-                </tr>
-            `);
-        $("#quantity").val(1); // Reset quantity to 1
-      });
+  // Update total cost and display it
+  function updateTotalCost(amount) {
+    totalCost += amount; // Update total cost
+    $("#payableAmount").text(totalCost.toFixed(2)); // Update displayed total price
+  }
 
-      // Handle item image click to add to billing table
-      $(document).on("click", ".image", function () {
-        const itemName = $(this).data("name");
-        const itemPrice = parseFloat($(this).data("price"));
-        $("#itemName").val(itemName);
-        $("#quantity").val(1); // Set default quantity to 1
-        $("#addItem").trigger("click"); // Add item to table
-      });
+  // Add item to billing table
+  $("#addItem").on("click", function (e) {
+    e.preventDefault();
+    const itemName = $("#itemName").val();
+    const quantity = parseInt($("#quantity").val()) || 1;
+    const itemPrice = parseFloat(inventory.find((item) => item.name.toLowerCase() === itemName).price);
+    
+    
+    const item = inventory.find((item) => item.name.toLowerCase() === itemName);
+  
+  if (!item) {
+    alert("Item not found in inventory.");
+    return;
+  }
 
-      // For click num button to load input field
-      $(document).on("click", ".numberButton", function () {
-        let currentQuantity = $("#quantity").val();
-        // If the current quantity is 0, replace it with the new value; otherwise, append the new value
-        if (currentQuantity === "0") {
-          $("#quantity").val($(this).data("value"));
-        } else {
-          $("#quantity").val(currentQuantity + $(this).data("value"));
-        }
-      });
+  const availableStock = Number(item.purchased) - item.sold;
+  
+      // Check if the item can be added based on stock
+      if (availableStock < quantity) {
+        alert("Insufficient stock available.");
+        return;
+      }
+    // Check if the item already exists in the table
+    const existingRow = $("#addedItemsBody tr").filter(function () {
+      return $(this).find("td:first").text() === itemName; // Match item name
+    });
 
-      // AC button functionality to remove last digit
-      $("#removeButton").on("click", function (e) {
-        e.preventDefault(); // Prevent default form submission
-        let currentQuantity = $("#quantity").val();
-        // Remove the last digit or reset to 0 if no digits are left
-        if (currentQuantity.length > 1) {
-          $("#quantity").val(currentQuantity.slice(0, -1));
-        } else {
-          $("#quantity").val("0");
-        }
-      });
+    if (existingRow.length) {
+      // If item exists, update the quantity and total price
+      const existingQuantity = parseInt(existingRow.find("td:eq(1)").text());
+      const newQuantity = existingQuantity + quantity; // Update quantity
+      const totalItemPrice = itemPrice * newQuantity; // Calculate new total price
 
-      // Clear button functionality to remove entire number
-      $("#clearButton").on("click", function (e) {
-        e.preventDefault(); // Prevent default form submission
-        $("#quantity").val("0"); // Set quantity to 0
-      });
+      // Update the existing row
+      existingRow.find("td:eq(1)").text(newQuantity); // Update quantity cell
+      existingRow.find("td:eq(3)").text(`$${totalItemPrice.toFixed(2)}`); // Update total price cell
 
-      // Cancel Item button functionality to remove the last row from the table
-      $("#cancelItem").on("click", function (e) {
-        e.preventDefault(); // Prevent default form submission
-        const lastRow = $("#addedItemsBody tr").last(); // Get the last row in the table
+      // Update total cost
+      updateTotalCost(totalItemPrice - existingQuantity * itemPrice); // Update total cost based on new total price
+    } else {
+      // If item doesn't exist, add a new row
+      const totalItemPrice = itemPrice * quantity; // Calculate total price for new item
 
-        if (lastRow.length) {
-          // Check if there is a last row
-          const totalRowPrice = parseFloat(
-            lastRow.find("td:last").text().replace("$", "")
-          ); // Get the total price from the last row
-          totalCost -= totalRowPrice; // Deduct the total price from totalCost
-          $("#payableAmount").text(totalCost.toFixed(2)); // Update the displayed total price
-          lastRow.remove(); // Remove the last row from the table
-        }
-      });
+      updateTotalCost(totalItemPrice); // Update total cost
+      $("#addedItemsBody").append(`
+        <tr>
+          <td>${itemName}</td>
+          <td>${quantity}</td>
+          <td>$${itemPrice.toFixed(2)}</td>
+          <td>$${totalItemPrice.toFixed(2)}</td>
+        </tr>
+      `);
+    }
 
-      // Bill button functionality to save total amount and navigate to the next page
-      $(".box8-btn1 a").on("click", function (e) {
-        e.preventDefault(); // Prevent default anchor behavior
-        localStorage.setItem("totalAmount", totalCost.toFixed(2)); // Store total amount in localStorage
-        window.location.href = "billing2.html"; // Navigate to the next page
-      });
+          // Update inventory stock
+          item.sold = Number(item.sold)+quantity; // Increase sold quantity by the added quantity
+      localStorage.setItem("inventory", JSON.stringify(inventory)); // Update inventory in local storage
+  
+    $("#quantity").val(1); // Reset quantity to 1
+  });
 
-      // Load items into the dropdown and inventory on page load
-      $(document).ready(function () {
-        populateItemDropdown();
-      });
-    </script>
+  // Handle item image click to add to billing table
+  $(document).on("click", ".image", function () {
+    const itemName = $(this).data("name");
+    const itemPrice = parseFloat($(this).data("price"));
+    $("#itemName").val(itemName);
+    $("#quantity").val(1); // Set default quantity to 1
+    $("#addItem").trigger("click"); // Add item to table
+  });
+
+  // Handle click event for category items (snack items)
+  $(document).on("click", ".category-item", function () {
+    const categoryValue = $(this).data("value"); // Get the snack name
+    const itemPrice = parseFloat(inventory.find((item) => item.name.toLowerCase() === categoryValue.toLowerCase()).price);
+
+    // Set the item name and quantity to 1
+    $("#itemName").val(categoryValue.toLowerCase());
+    $("#quantity").val(1); // Set default quantity to 1
+
+    // Add item to billing table
+    $("#addItem").trigger("click"); // Trigger click on "Add Item" button
+  });
+
+  // For click num button to load input field
+  $(document).on("click", ".numberButton", function () {
+    let currentQuantity = $("#quantity").val();
+    // If the current quantity is 0, replace it with the new value; otherwise, append the new value
+    if (currentQuantity === "0") {
+      $("#quantity").val($(this).data("value"));
+    } else {
+      $("#quantity").val(currentQuantity + $(this).data("value"));
+    }
+  });
+
+  // AC button functionality to remove last digit
+  $("#removeButton").on("click", function (e) {
+    e.preventDefault(); // Prevent default form submission
+    let currentQuantity = $("#quantity").val();
+    // Remove the last digit or reset to 0 if no digits are left
+    if (currentQuantity.length > 1) {
+      $("#quantity").val(currentQuantity.slice(0, -1));
+    } else {
+      $("#quantity").val("0");
+    }
+  });
+
+  // Clear button functionality to remove entire number
+  $("#clearButton").on("click", function (e) {
+    e.preventDefault(); // Prevent default form submission
+    $("#quantity").val("0"); // Set quantity to 0
+  });
+
+  // Cancel Item button functionality to remove the last row from the table
+  $("#cancelItem").on("click", function (e) {
+    e.preventDefault(); // Prevent default form submission
+    const lastRow = $("#addedItemsBody tr").last(); // Get the last row in the table
+
+    if (lastRow.length) {
+      // Check if there is a last row
+      const totalRowPrice = parseFloat(lastRow.find("td:last").text().replace("$", "")); // Get the total price from the last row
+      updateTotalCost(-totalRowPrice); // Deduct the total price from totalCost
+      lastRow.remove(); // Remove the last row from the table
+    }
+  });
+
+  // Bill button functionality to save table items and total amount
+  $(".box8-btn1").on("click", function (e) {
+    e.preventDefault(); // Prevent default anchor behavior
+
+    // Gather table data
+    const tableData = [];
+    $("#addedItemsBody tr").each(function () {
+      const itemName = $(this).find("td:eq(0)").text(); // Get item name
+      const quantity = parseInt($(this).find("td:eq(1)").text()); // Get quantity
+      const unitPrice = parseFloat($(this).find("td:eq(2)").text().replace("$", "")); // Get unit price
+      const totalPrice = parseFloat($(this).find("td:eq(3)").text().replace("$", "")); // Get total price
+
+      // Add the item as an object to the array
+      tableData.push({ itemName, quantity, unitPrice, totalPrice });
+    });
+
+    // Store the table data and total amount in localStorage
+    localStorage.setItem("tableData", JSON.stringify(tableData)); // Store table data
+    localStorage.setItem("totalAmount", totalCost.toFixed(2)); // Store total amount
+
+    console.log(tableData);
+    
+    // Navigate to the next page
+    window.location.href = "billing2.html";
+  });
+
+  // Load items into the dropdown and inventory on page load
+  $(document).ready(function () {
+    populateItemDropdown();
+    displayInventoryItems();
+  });
+
+  $(document).ready(function () {
+    const scrollAmount = 30; // The amount to scroll up/down in pixels
+
+    // Scroll up functionality
+    $(".scroll-up").on("click", function () {
+      $(".scrollable-categories").animate(
+        {
+          scrollTop: "-=" + scrollAmount,
+        },
+        200
+      ); // Adjust scroll speed if needed
+    });
+
+    // Scroll down functionality
+    $(".scroll-down").on("click", function () {
+      $(".scrollable-categories").animate(
+        {
+          scrollTop: "+=" + scrollAmount,
+        },
+        200
+      ); // Adjust scroll speed if needed
+    });
+  });
+
+  // Smooth scroll for the mouse wheel
+  $(".scrollable-categories").on("wheel", function (e) {
+    e.preventDefault(); // Prevent default scroll behavior
+    const delta = e.originalEvent.deltaY; // Get the scroll amount
+
+    $(this).animate(
+      {
+        scrollTop: $(this).scrollTop() + delta, // Animate scroll position
+      },
+      200
+    ); // Adjust speed as necessary
+  });
+</script>
+
   </body>
 </html>

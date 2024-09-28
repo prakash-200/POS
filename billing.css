@@ -1,10 +1,11 @@
 body {
     font-family: 'Times New Roman', Times, serif;
-    background-color: white;
+    background-color: #d1d1d1;
     margin: 0;
     padding: 0;
     height: 100vh;
     width: 100vw;
+    overflow: hidden;
 }
 
 main{
@@ -18,9 +19,6 @@ main{
     background-color: rgb(234, 237, 247);
 }
 
-.right-section{
-}
-
 .total-price{
     border: 2px solid black;
     padding: 5px;
@@ -29,7 +27,6 @@ main{
 }
 
 th, td {
-    /* border: 1px solid #000; */
     padding: 5px;
 }
 
@@ -241,6 +238,32 @@ center{
     background-color: rgb(174, 239, 167);
 }
 
+.box2-btn1, .box3-btn1{
+    height: 100%;
+    width: 100%;
+}
+
+.box9-btn1, .box10-btn1{
+    height: 90%;
+    width: 100%;
+}
+
+.box6-btn1, .box7-btn1{
+    height: 100%;
+}
+
+.box12{
+    height: 90%;
+}
+
+.box11-btn1{
+    height: 90%;
+}
+
+.box8-btn1{
+    height: 90%;
+}
+
 .box1, .box4, .box5, .box12{
     display: flex;
     flex-direction: column;
@@ -310,3 +333,74 @@ center{
     border: 1px solid black;
     cursor: pointer;
 }
+
+/* Scroll bar */
+/* .scroll-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100px; 
+    height: 300px;
+  } */
+  
+  .scroll-up, .scroll-down {
+    background-color: #f0f0f0;
+    border: none;
+    cursor: pointer;
+    border-radius: 3px;
+    margin: 2px;
+    font-size: 16px;
+  }
+  
+  .scroll-up:hover, .scroll-down:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .scrollable-categories {
+    max-height: 150px;
+    overflow-y: hidden; /* Hide the scrollbar */
+    width: 100%;
+    border: 1px solid #ccc;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    gap: 5px; /* Space between items */
+  }
+  
+  .category-item {
+    padding: 8px;
+    cursor: pointer;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    color: white;
+    font-weight: bold;
+  }
+  
+  .category-item:hover {
+    background-color: #e0e0e0;
+  }
+  
+  
+  /* Custom scrollbar styling */
+  .scrollable-categories {
+      max-height: 300px; /* Adjust height as needed */
+      overflow: hidden;
+      scrollbar-width: thin; /* For Firefox */
+      scrollbar-color: #007bff #f1f1f1; /* For Firefox */
+  }
+  
+  .scrollable-categories::-webkit-scrollbar {
+      width: 8px; /* Width of the scrollbar */
+  }
+  
+  .scrollable-categories::-webkit-scrollbar-thumb {
+      background-color: #007bff; /* Color of the scrollbar thumb */
+      border-radius: 10px; /* Rounded corners */
+  }
+  
+  .scrollable-categories::-webkit-scrollbar-track {
+      background: #f1f1f1; /* Color of the scrollbar track */
+  }

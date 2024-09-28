@@ -20,34 +20,49 @@
   <body>
     <header class="header"></header>
     <main>
-      <div class="left-section">
-        <div class="left-start-section">
-          <div class="total-price fw-bold">
-            Change: <span id="balance">0.00</span>
+      <div class="left-section vh-100">
+        <div class="bill h-50" id="billContent">
+          
+        
+          <div class="left-start-section">
+            <div class="total-price fw-bold">
+              <div class="grp mx-2">Change: <span id="balance">0.00</span></div>
+            </div>
+            <div class="d-flex justify-content-between mx-3 fw-medium">
+              <label>Amount</label>
+              <p id="amount">$0.00</p>
+            </div>
+            <div class="d-flex justify-content-between mx-3 fw-medium">
+              <label>GST Amount</label>
+              <p id="gstAmount">$0.00</p>
+            </div>
+            <hr class="" style="margin-top: -10px" />
+            <div
+              class="d-flex justify-content-between text-danger fs-5 fw-bold m-3"
+              style="position: relative; top: -10px"
+            >
+              Payable: <span id="payableAmount" class="fw-medium">$0.00</span>
+            </div>
+            <hr style="margin-top: -10px" />
           </div>
-          <div class="d-flex justify-content-between m-2 fw-medium">
-            <label>Amount</label>
-            <p id="amount">$0.00</p>
+          <div class="left-center-section w-100" style="margin-top: -10px">
+            <div class="d-flex justify-content-between text-primary fw-bold">
+              <span style="margin-left: -5px; padding-bottom: 5px"
+                >Tender:</span
+              >
+              <span id="tender" class="" style="padding-right: 40px"
+                >$0.00</span
+              >
+            </div>
+            <div class="d-flex justify-content-between text-primary fw-bold">
+              <span style="margin-left: -5px">Change:</span>
+              <span id="change" class="" style="padding-right: 40px"
+                >$0.00</span
+              >
+            </div>
           </div>
-          <div class="d-flex justify-content-between m-2 fw-medium">
-            <label>GST Amount</label>
-            <p id="gstAmount">$0.00</p>
-          </div>
-          <hr class="" />
-          <div class="d-flex justify-content-between text-danger fs-5 fw-bold m-2">
-            Payable: <span id="payableAmount" class="fw-medium">$0.00</span>
-          </div>
-          <hr />
         </div>
-        <div class="left-center-section w-100">
-          <div class="d-flex justify-content-between text-primary fw-bold">
-            Tender: <span id="tender" class="" style="padding-right: 40px;">$0.00</span>
-          </div>
-          <div class="d-flex justify-content-between text-primary  fw-bold">
-            Change: <span id="change" class="" style="padding-right: 40px;">$0.00</span>
-          </div>
-        </div>
-        <div class="left-end-section">
+        <div class="left-end-section h-50">
           <div class="left-end-top">
             <form action="" method="POST">
               <div>
@@ -119,47 +134,54 @@
             </div>
             <div class="left-end-bottom-end">
               <div>
-                <button name="ac" id="removeButton">AC</button>
+                <button name="ac" id="removeButton" style="padding-right: 50px;">AC</button>
               </div>
               <div>
-                <button name="clear" id="clearButton">Clear</button>
+                <button name="clear" id="clearButton" style="padding-right: 50px;">Clear</button>
               </div>
             </div>
           </div>
         </div>
       </div>
       <div class="right-section">
-        <div class="right-top-section">
+        <div class="right-top-section h-75" style="padding-bottom: 100px">
           <div class="sidebar">
             <div class="sidebar-nav">
-              <button class="up-btn">
-                <img src="" alt="" class="btn-icon" />
-              </button>
-              <button class="sidebar-btns">Steamed Bun</button>
-              <button class="sidebar-btns">Steamed Timsum</button>
-              <button class="sidebar-btns">Beverage</button>
-              <button class="sidebar-btns">Bake</button>
-              <button class="sidebar-btns">Noodle/<br />Dumplinge</button>
-              <button class="sidebar-btns">Porridge</button>
-              <button class="down-btn">
-                <img src="" alt="" class="btn-icon" />
-              </button>
+              <div class="scroll-container">
+                <button class="scroll-up w-100 d-flex">
+                  <i
+                    class="fas fa-chevron-up"
+                    style="color: #000000; padding-left: 40px"
+                  ></i>
+                </button>
+                <div class="scrollable-categories"></div>
+                <button class="scroll-down w-100 d-flex">
+                  <i
+                    class="fas fa-chevron-down"
+                    style="color: #000000; padding-left: 40px"
+                  ></i>
+                </button>
+              </div>
             </div>
           </div>
-          <div class="inventory">
-            
+          <div class="inventory" style="background-color: aliceblue">
+            <!-- Images loaded based on inventory items -->
           </div>
         </div>
-        <div class="right-bottom-section">
+        <div class="right-bottom-section h-50" style="margin-top: -80px">
           <div class="box1">
-            <button class="box1-btn1">New Bill</button>
+            <button class="box1-btn1" id="newBillButton">New Bill</button>
             <button class="box1-btn2">Price Amendment</button>
           </div>
           <div class="box2">
-            <button class="box2-btn1" id="numberButton" data-value="2">$2</button>
+            <button class="box2-btn1" id="numberButton" data-value="2">
+              $2
+            </button>
           </div>
           <div class="box3">
-            <button class="box3-btn1" id="numberButton" data-value="10">$10</button>
+            <button class="box3-btn1" id="numberButton" data-value="10">
+              $10
+            </button>
           </div>
           <div class="box4">
             <button class="box4-btn1">Open Cash Box</button>
@@ -167,7 +189,7 @@
           </div>
           <div class="box5">
             <button class="box5-btn1">Goods Return</button>
-            <button class="box5-btn2">Print</button>
+            <button class="box5-btn2" id="saveButton">Print</button>
           </div>
           <div class="box6">
             <button class="box6-btn1">Cancel Item</button>
@@ -182,7 +204,11 @@
                   class="text-light mx-1"
                   style="
                     font-family: 'Trebuchet MS', 'Lucida Sans Unicode',
-                      'Lucida Grande', 'Lucida Sans', Arial, sans-serif;">Bill</span></i>
+                      'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+                  "
+                  >Bill</span
+                ></i
+              >
             </button>
           </div>
           <div class="box9">
@@ -216,38 +242,121 @@
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 
     <script>
-
       // Function to display inventory items from local storage
-function displayInventoryItems() {
-    const inventoryDiv = $(".inventory");
-    inventoryDiv.empty(); // Clear existing content
+      function displayInventoryItems() {
+        const inventoryDiv = $(".inventory");
+        inventoryDiv.empty(); // Clear existing content
 
-    // Get inventory data from local storage
-    const inventoryItems = JSON.parse(localStorage.getItem("inventory")) || [];
+        // Get inventory data from local storage
+        const inventoryItems =
+          JSON.parse(localStorage.getItem("inventory")) || [];
 
-    // Loop through each item in the inventory and create an image element
-    inventoryItems.forEach(item => {
-        const itemButton = $(`
+        // Loop through each item in the inventory and create an image element
+        inventoryItems.forEach((item) => {
+          const itemButton = $(`
             <button>
                 <img src="${item.image}" alt="${item.name}" />
             </button>
         `);
-        inventoryDiv.append(itemButton);
-    });
-}
+          inventoryDiv.append(itemButton);
+        });
+      }
 
-// Call the function to display items on page load
-$(document).ready(function() {
-    displayInventoryItems();
-});
+      // Call the function to display items on page load
+      $(document).ready(function () {
+        displayInventoryItems();
+      });
 
-      
-    let payableAmount = 0;
-    let gstAmount = 0;
-    let totalAmount = 0;
+      const inventory =
+        JSON.parse(localStorage.getItem("inventory")) || sampleInventory;
+      let totalCost = 0;
 
-    // For display amount from local storage
-    $(document).ready(function () {
+      function populateItemDropdown() {
+        const itemSelect = $("#itemName");
+        inventory.forEach((item) => {
+          itemSelect.append(
+            `<option value="${item.name.toLowerCase()}">${
+              item.name
+            } - $${parseFloat(item.price).toFixed(2)}</option>`
+          );
+        });
+      }
+      // Display Images under inventory
+      function displayInventoryItems() {
+        const inventoryDiv = $(".inventory");
+        const snackNames = []; // Array to hold snack names for scrolling
+
+        inventory.forEach((item) => {
+          if (item.category === "Drinks") {
+            // Load images dynamically based on inventory
+            inventoryDiv.append(
+              `<button class="image" style="height: 100px; width: 200px;" data-name="${item.name.toLowerCase()}" data-price="${
+                item.price
+              }"><img src="${item.image}" alt="${
+                item.name
+              }" class="items" /></button>`
+            );
+          } else if (item.category === "Snacks") {
+            snackNames.push(item.name); // Add snack names to the array
+          }
+        });
+
+        // Display snack names in the scrollable area
+        const snackContainer = $(".scrollable-categories");
+        snackNames.forEach((name) => {
+          snackContainer.append(
+            `<div class="category-item bg-primary" data-value="${name}">${name}</div>`
+          );
+        });
+      }
+
+      // Load items into the dropdown and inventory on page load
+      $(document).ready(function () {
+        populateItemDropdown();
+      });
+
+      $(document).ready(function () {
+        const scrollAmount = 30; // The amount to scroll up/down in pixels
+
+        // Scroll up functionality
+        $(".scroll-up").on("click", function () {
+          $(".scrollable-categories").animate(
+            {
+              scrollTop: "-=" + scrollAmount,
+            },
+            200
+          ); // Adjust scroll speed if needed
+        });
+
+        // Scroll down functionality
+        $(".scroll-down").on("click", function () {
+          $(".scrollable-categories").animate(
+            {
+              scrollTop: "+=" + scrollAmount,
+            },
+            200
+          ); // Adjust scroll speed if needed
+        });
+      });
+
+      // Smooth scroll for the mouse wheel
+      $(".scrollable-categories").on("wheel", function (e) {
+        e.preventDefault(); // Prevent default scroll behavior
+        const delta = e.originalEvent.deltaY; // Get the scroll amount
+
+        $(this).animate(
+          {
+            scrollTop: $(this).scrollTop() + delta, // Animate scroll position
+          },
+          200
+        ); // Adjust speed as necessary
+      });
+
+      // For display amount from local storage
+      let payableAmount = 0;
+      let gstAmount = 0;
+      let totalAmount = 0;
+      $(document).ready(function () {
         totalAmount = parseFloat(localStorage.getItem("totalAmount"));
 
         // Calculate GST (7%)
@@ -260,77 +369,118 @@ $(document).ready(function() {
         $("#amount").text(`$${totalAmount.toFixed(2)}`);
         $("#gstAmount").text(`$${gstAmount.toFixed(2)}`);
         $("#payableAmount").text(`$${payableAmount.toFixed(2)}`);
-    });
+      });
 
-    // Existing variables
-let tenderAmount = 0;
+      // Existing variables
+      let tenderAmount = 0;
 
-// Function to update tender amount and balance
-function updateTender(value) {
-    // Add the clicked button value to the tender amount
-    tenderAmount += value;
+      // Function to update tender amount and balance
+      function updateTender(value) {
+        // Add the clicked button value to the tender amount
+        tenderAmount += value;
 
-    // Display the updated tender amount
-    $("#tender").text(`$${tenderAmount.toFixed(2)}`);
+        // Display the updated tender amount
+        $("#tender").text(`$${tenderAmount.toFixed(2)}`);
 
-    // Calculate and display the change
-    const change = tenderAmount - payableAmount;
-    $("#change").text(`$${change.toFixed(2)}`);
+        // Calculate and display the change
+        const change = tenderAmount - payableAmount;
+        $("#change").text(`$${change.toFixed(2)}`);
 
-    // Update the balance amount
-    $("#balance").text(`$${change.toFixed(2)}`);
-}
+        // Update the balance amount
+        $("#balance").text(`$${change.toFixed(2)}`);
+      }
 
-// Event listeners for the tender buttons
-$("#five").on("click", function () {
-    updateTender(5);
-});
+      // Event listeners for the tender buttons
+      $("#five").on("click", function () {
+        updateTender(5);
+      });
 
-$("#fifty").on("click", function () {
-    updateTender(50);
-});
+      $("#fifty").on("click", function () {
+        updateTender(50);
+      });
 
-$("#numberButton[data-value='2']").on("click", function () {
-    updateTender(2);
-});
+      $("#numberButton[data-value='2']").on("click", function () {
+        updateTender(2);
+      });
 
-$("#numberButton[data-value='10']").on("click", function () {
-    updateTender(10);
-});
+      $("#numberButton[data-value='10']").on("click", function () {
+        updateTender(10);
+      });
 
-// Function to save sales record in localStorage
-function saveSalesRecord(itemName, quantity, totalPrice) {
-            const salesRecord = {
-                itemName: itemName,
-                quantity: quantity,
-                totalPrice: parseFloat(totalPrice), // Ensure it's a number
-                date: new Date().toISOString() // Save the current date and time
-            };
 
-            const existingRecords = JSON.parse(localStorage.getItem("salesRecords")) || [];
-            existingRecords.push(salesRecord);
-            localStorage.setItem("salesRecords", JSON.stringify(existingRecords));
-        }
 
-        // Handle form submission
-        document.getElementById("billingForm").addEventListener("submit", function(event) {
-            event.preventDefault(); // Prevent the default form submission
 
-            // Get values from the form
-            const itemName = document.getElementById("itemName").value;
-            const quantity = document.getElementById("quantity").value;
-            const totalPrice = document.getElementById("totalPrice").value;
 
-            // Save the sales record
-            saveSalesRecord(itemName, quantity, totalPrice);
+// store Bill to local storage
+      document.getElementById('saveButton').addEventListener('click', function() {
+  // Retrieve values from the respective elements
+  const amount = document.getElementById('amount').innerText.replace('$', '');
+  const gstAmount = document.getElementById('gstAmount').innerText.replace('$', '');
+  const payableAmount = document.getElementById('payableAmount').innerText.replace('$', '');
+  const tender = document.getElementById('tender').innerText.replace('$', '');
+  const change = document.getElementById('change').innerText.replace('$', '');
 
-            // Clear the form
-            this.reset();
+  // Create an object to hold the data
+  const billingData = {
+    amount: parseFloat(amount),
+    gstAmount: parseFloat(gstAmount),
+    payableAmount: parseFloat(payableAmount),
+    tender: parseFloat(tender),
+    change: parseFloat(change)
+  };
 
-            // Optional: Alert user of success
-            alert("Sales record added successfully!");
+  // Store the object in local storage as a JSON string
+  localStorage.setItem('billingData', JSON.stringify(billingData));
+
+  console.log("Stored Successfully!!!");
+  
+  });
+
+  // for redirect to print page
+  document.getElementById('saveButton').addEventListener('click', function() {
+            // Redirect to the bill page and automatically trigger the print dialog
+            window.location.href = 'printBill.html';  // Change 'billPage.html' to the actual path of your bill page
         });
 
+      // Print Bill
+      document
+        .getElementById("printButton")
+        .addEventListener("click", function () {
+          printBill();
+        });
+
+      function printBill() {
+        var printContents = document.getElementById("billContent").innerHTML;
+        var originalContents = document.body.innerHTML;
+
+        // Temporarily replace the entire body content with the bill content
+        document.body.innerHTML = printContents;
+
+        window.print(); // Trigger the print dialog
+
+        // Restore the original content after printing
+        document.body.innerHTML = originalContents;
+      }
+
+      // For Sales record page
+      $("#newBillButton").click(function () {
+    const tableData = [];
+    $("#addedItemsBody tr").each(function () {
+      const itemName = $(this).find("td:eq(0)").text();
+      const quantity = parseInt($(this).find("td:eq(1)").text());
+      const unitPrice = parseFloat($(this).find("td:eq(2)").text().replace("$", ""));
+      const totalPrice = parseFloat($(this).find("td:eq(3)").text().replace("$", ""));
+      tableData.push({ itemName, quantity, unitPrice, totalPrice });
+    });
+  
+    // Store the table data and total amount in localStorage
+    localStorage.setItem("tableData", JSON.stringify(tableData));
+    localStorage.setItem("totalAmount", totalCost.toFixed(2));
+  
+    // Navigate to the bill records page
+    window.location.href = "SalesReport.html"; // Adjust this URL as needed
+  });
+      
 
     </script>
   </body>

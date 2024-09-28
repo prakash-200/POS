@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POS</title>
+    <!-- Bootstrap CDN -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+</head>
+<body class="vh-100 vw-100" style="font-family: 'Times New Roman', Times, serif;">
+    <center>
+        <h1>Bill Receipt</h1>
+    </center>
+    <div class="mx-5"> 
+        <div class="item-info" style="background-color: #d1d1d1; margin-bottom: 20px;">
+            
+            <div class="fw-bold fs-5" style="height: 40px; border: 1px solid black; padding-left: 10px;">Total Amount: $<span id="payableAmount">0.00</span></div>
+            <table id="addedItemsTable" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Quantity</th>
+                        <th>Unit Price</th>
+                        <th>Total Price</th>
+                    </tr>
+                </thead>
+                <tbody id="addedItemsBody"></tbody>
+            </table>
+        </div>
+        <div class="item-status">
+            <table id="billingTable" class="table">
+                <tbody id="billingTableBody">
+                  <!-- Data will be dynamically inserted here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+
+    <script>
+        $(document).ready(function () {
+            loadAddedItems();
+            loadBillingData();
+      
+            // Automatically print the bill when the page loads
+            window.onload = function() {
+                window.print(); 
+            };
+
+            // Redirect to home page after print dialog is closed
+            window.onafterprint = function() {
+                window.location.href = 'index.html'; 
+            };
+        });
+      
+        // Function to load the added items from local storage and populate the table
+        function loadAddedItems() {
+            const tableData = JSON.parse(localStorage.getItem("tableData")) || [];
+            const totalAmount = localStorage.getItem("totalAmount") || "0.00";
+      
+            const addedItemsBody = $("#addedItemsBody");
+            addedItemsBody.empty();  // Clear previous content
+      
+            tableData.forEach((item) => {
+                addedItemsBody.append(`
+                    <tr>
+                        <td>${item.itemName}</td>
+                        <td>${item.quantity}</td>
+                        <td>$${item.unitPrice.toFixed(2)}</td>
+                        <td>$${item.totalPrice.toFixed(2)}</td>
+                    </tr>
+                `);
+            });
+      
+            // Display the total amount
+            $("#payableAmount").text(totalAmount);
+        }
+      
+        // Function to load the billing data from local storage and display in the table
+        function loadBillingData() {
+            const storedData = localStorage.getItem('billingData');
+      
+            if (storedData) {
+                const billingData = JSON.parse(storedData);
+                const tableBody = document.getElementById('billingTableBody');
+                tableBody.innerHTML = '';  // Clear the existing table rows
+
+                // Append the labels and corresponding values in a two-column format
+                tableBody.innerHTML = `
+                  <tr>
+                    <td class="border-0"><strong>Amount</strong></td>
+                    <td class="border-0 fw-medium">$${billingData.amount.toFixed(2)}</td>
+                  </tr>
+                  <tr>
+                    <td style="border-bottom: 2px solid black;"><strong>GST Amount</strong></td>
+                    <td class=" fw-medium" style="border-bottom: 2px solid black;">$${billingData.gstAmount.toFixed(2)}</td>
+                  </tr>
+                  <tr>
+                    <td class="text-danger fs-5" style="border-bottom: 2px solid black;"><strong>Payable Amount</strong></td>
+                    <td class="text-danger fs-5 fw-bold" style="border-bottom: 2px solid black;">$${billingData.payableAmount.toFixed(2)}</td>
+                    
+                  </tr>
+                  <tr>
+                    <td class="border-0 text-primary"><strong>Tender</strong></td>
+                    <td class="border-0 text-primary fw-medium">$${billingData.tender.toFixed(2)}</td>
+                  </tr>
+                  <tr>
+                    <td class="border-0 text-primary"><strong>Change</strong></td>
+                    <td class="border-0 text-primary fw-medium">$${billingData.change.toFixed(2)}</td>
+                  </tr>
+                `;
+            }
+        }
+      </script>
+</body>
+</html>
