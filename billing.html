@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>POS</title>
-    <link rel="stylesheet" href="billing.css" />
+    <link rel="stylesheet" href="css/billing.css" />
     <!-- Bootstrap CDN -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
@@ -178,7 +178,7 @@
           </div>
           <div class="box8">
             <!-- <a href="l" class="text-light text-decoration-none"> -->
-              <button class="box8-btn1">
+              <button class="box8-btn1" id="billButton">
                 <i class="fa-solid fa-play" style="color: #000000">
                   <span
                     class="text-light mx-1"
@@ -262,6 +262,13 @@
     $("#payableAmount").text(totalCost.toFixed(2)); // Update displayed total price
   }
 
+      // Function to check if the table is empty and enable/disable the Bill button
+function updateBillButtonState() {
+  const isTableEmpty = $("#addedItemsBody tr").length === 0; // Check if there are no rows in the table
+  $("#billButton").prop("disabled", isTableEmpty); // Disable the button if the table is empty
+}
+
+
   // Add item to billing table
   $("#addItem").on("click", function (e) {
     e.preventDefault();
@@ -320,7 +327,8 @@
           item.sold = Number(item.sold)+quantity; // Increase sold quantity by the added quantity
       localStorage.setItem("inventory", JSON.stringify(inventory)); // Update inventory in local storage
   
-    $("#quantity").val(1); // Reset quantity to 1
+    $("#quantity").val(1);
+    updateBillButtonState();
   });
 
   // Handle item image click to add to billing table
@@ -399,9 +407,14 @@
       const unitPrice = parseFloat($(this).find("td:eq(2)").text().replace("$", "")); // Get unit price
       const totalPrice = parseFloat($(this).find("td:eq(3)").text().replace("$", "")); // Get total price
 
-      // Add the item as an object to the array
-      tableData.push({ itemName, quantity, unitPrice, totalPrice });
-    });
+     // Get today's date
+  const today = new Date();
+  const dateString = today.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+
+  // Add the item as an object to the array, including the date
+  tableData.push({ itemName, quantity, unitPrice, totalPrice, date: dateString });
+});
+
 
     // Store the table data and total amount in localStorage
     localStorage.setItem("tableData", JSON.stringify(tableData)); // Store table data
@@ -420,7 +433,7 @@
   });
 
   $(document).ready(function () {
-    const scrollAmount = 30; // The amount to scroll up/down in pixels
+    const scrollAmount = 20; // The amount to scroll up/down in pixels
 
     // Scroll up functionality
     $(".scroll-up").on("click", function () {
@@ -450,11 +463,17 @@
 
     $(this).animate(
       {
-        scrollTop: $(this).scrollTop() + delta, // Animate scroll position
+        scrollTop: $(this).scrollTop() + delta,
       },
-      200
+      100
     ); // Adjust speed as necessary
   });
+
+  $(document).ready(function () {
+  // populateItemDropdown();
+  // displayInventoryItems();
+  updateBillButtonState(); // Initialize Bill button state
+});
 </script>
 
   </body>

@@ -1,148 +1,173 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sales Report</title>
-    <link rel="stylesheet" href="billing.css" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Add jQuery library -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 </head>
-<body>
-    <div class="container mt-4">
-        <div class="mb-3">
-            <label for="filter" class="form-label">Filter Records:</label>
-            <select id="filter" class="form-select">
-                <option value="all">All Data</option>
+<body class="vh-100 vw-100" style="overflow: hidden; background-color: #D1D1D1; font-family: 'Times New Roman', Times, serif; margin: 0; padding: 0; box-sizing: border-box;">
+    <div class="container mt-3 d-flex flex-column align-items-center">
+        <div class="row">
+            <a href="index.html" style="position: relative; right: 390px;">
+                <button class="bg-primary">
+                    <i class="fa-solid fa-house text-light"></i>
+                </button>
+            </a>
+            <h2 class="mb-4" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Sales Report</h2>
+        </div>
+        <div class="form-group d-flex">
+            <label for="dateFilter" class="mt-2">Filter by Date: &nbsp;</label>
+            <select id="dateFilter" class="form-control" style="width: 150px; height: 40px;">
+                <option value="all">All Dates</option>
                 <option value="today">Today</option>
                 <option value="yesterday">Yesterday</option>
-                <option value="this_week">This Week</option>
-                <option value="last_week">Last Week</option>
-                <option value="this_month">This Month</option>
-                <option value="last_month">Last Month</option>
+                <option value="thisWeek">This Week</option>
+                <option value="lastWeek">Last Week</option>
+                <option value="thisMonth">This Month</option>
+                <option value="lastMonth">Last Month</option>
             </select>
         </div>
-
-        <table id="billingRecordTable" class="table">
+        <table class="table table-striped table-bordered" id="salesReportTable">
             <thead>
                 <tr>
+                    <th>S.No</th>
                     <th>Item Name</th>
                     <th>Quantity</th>
-                    <th>Unit Price</th>
                     <th>Total Price</th>
-                    <th>Date</th>
                 </tr>
             </thead>
-            <tbody id="billingRecordBody">
-                <!-- Data will be populated here -->
-            </tbody>
+            <tbody id="reportBody"></tbody>
         </table>
+        <nav aria-label="Page navigation">
+            <ul class="pagination" id="pagination"></ul>
+        </nav>
     </div>
 
     <script>
-        $(document).ready(function () {
-            // Function to load table data
-            function loadTableData(filter = "all") {
-                const existingAnotherData = localStorage.getItem("anotherTableData");
-                const anotherTableData = JSON.parse(existingAnotherData) || [];
+        const rowsPerPage = 10; // Number of rows to display per page
+        let currentPage = 1;
 
-                $("#billingRecordBody").empty(); // Clear previous data
-
-                // Filter data based on the selected filter option
-                const filteredData = filterData(anotherTableData, filter);
-
-                if (filteredData.length > 0) {
-                    filteredData.forEach(item => {
-                        const row = `
-                            <tr>
-                                <td>${item.itemName}</td>
-                                <td>${item.quantity}</td>
-                                <td>$${item.unitPrice.toFixed(2)}</td>
-                                <td>$${item.totalPrice.toFixed(2)}</td>
-                                <td>${new Date(item.date).toLocaleString()}</td>
-                            </tr>
-                        `;
-                        $("#billingRecordBody").append(row);
-                    });
-                } else {
-                    $("#billingRecordBody").append("<tr><td colspan='5'>No data available</td></tr>");
+        // Function to filter data based on selected date
+        function filterData(filter) {
+            const storedData = JSON.parse(localStorage.getItem("salesReportData")) || [];
+            const today = new Date();
+            const filteredData = storedData.filter(item => {
+                const itemDate = new Date(item.date);
+                switch (filter) {
+                    case 'today':
+                        return itemDate.toDateString() === today.toDateString();
+                    case 'yesterday':
+                        const yesterday = new Date(today);
+                        yesterday.setDate(today.getDate() - 1);
+                        return itemDate.toDateString() === yesterday.toDateString();
+                    case 'thisWeek':
+                        const startOfWeek = new Date(today);
+                        startOfWeek.setDate(today.getDate() - today.getDay());
+                        return itemDate >= startOfWeek && itemDate <= today;
+                    case 'lastWeek':
+                        const lastWeekStart = new Date(today);
+                        lastWeekStart.setDate(today.getDate() - today.getDay() - 7);
+                        const lastWeekEnd = new Date(today);
+                        lastWeekEnd.setDate(today.getDate() - today.getDay() - 1);
+                        return itemDate >= lastWeekStart && itemDate <= lastWeekEnd;
+                    case 'thisMonth':
+                        return itemDate.getMonth() === today.getMonth() && itemDate.getFullYear() === today.getFullYear();
+                    case 'lastMonth':
+                        const lastMonth = new Date(today);
+                        lastMonth.setMonth(today.getMonth() - 1);
+                        return itemDate.getMonth() === lastMonth.getMonth() && itemDate.getFullYear() === lastMonth.getFullYear();
+                    case 'all':
+                    default:
+                        return true;
                 }
-            }
-
-            // Function to filter data based on the selected filter option
-            function filterData(data, filter) {
-                const today = new Date();
-                let startDate, endDate;
-
-                return data.filter(item => {
-                    const itemDate = new Date(item.date);
-
-                    switch (filter) {
-                        case "today":
-                            return itemDate.toDateString() === today.toDateString();
-                        case "yesterday":
-                            const yesterday = new Date(today);
-                            yesterday.setDate(today.getDate() - 1);
-                            return itemDate.toDateString() === yesterday.toDateString();
-                        case "this_week":
-                            startDate = new Date(today);
-                            startDate.setDate(today.getDate() - today.getDay()); // Start of the week (Sunday)
-                            endDate = new Date(today);
-                            endDate.setDate(today.getDate() + (6 - today.getDay())); // End of the week (Saturday)
-                            return itemDate >= startDate && itemDate <= endDate;
-                        case "last_week":
-                            startDate = new Date(today);
-                            startDate.setDate(today.getDate() - today.getDay() - 7); // Start of last week
-                            endDate = new Date(today);
-                            endDate.setDate(today.getDate() - today.getDay() - 1); // End of last week
-                            return itemDate >= startDate && itemDate <= endDate;
-                        case "this_month":
-                            return itemDate.getMonth() === today.getMonth() && itemDate.getFullYear() === today.getFullYear();
-                        case "last_month":
-                            const lastMonth = new Date(today);
-                            lastMonth.setMonth(today.getMonth() - 1);
-                            return itemDate.getMonth() === lastMonth.getMonth() && itemDate.getFullYear() === lastMonth.getFullYear();
-                        case "all":
-                        default:
-                            return true; // Include all records
-                    }
-                });
-            }
-
-            // Function to add a new bill
-            function addNewBill(itemName, quantity, unitPrice) {
-                const totalPrice = quantity * unitPrice;
-                const date = new Date().toISOString(); // Get current date in ISO format
-                const newBill = { itemName, quantity, unitPrice, totalPrice, date };
-
-                // Save to local storage
-                const storedData = localStorage.getItem("tableData");
-                const tableData = JSON.parse(storedData) || [];
-                tableData.push(newBill);
-                localStorage.setItem("tableData", JSON.stringify(tableData));
-
-                // Save to anotherTableData
-                const existingAnotherData = localStorage.getItem("anotherTableData");
-                const anotherTableData = JSON.parse(existingAnotherData) || [];
-                anotherTableData.push(newBill);
-                localStorage.setItem("anotherTableData", JSON.stringify(anotherTableData));
-
-                // Reload the table
-                loadTableData();
-            }
-
-            // Call the function to load data on page load
-            loadTableData();
-
-            // Change event for the dropdown filter
-            $("#filter").change(function () {
-                const selectedFilter = $(this).val();
-                loadTableData(selectedFilter);
             });
 
-            // Example usage of addNewBill (uncomment to test adding new bills)
-            // addNewBill('Sample Item 1', 2, 15.00); // Example item 1
-            // addNewBill('Sample Item 2', 1, 25.50); // Example item 2
+            return filteredData;
+        }
+
+        // Function to display data in the table
+        function displayData(data) {
+            const tbody = $('#reportBody');
+            tbody.empty(); // Clear previous data
+            
+            const start = (currentPage - 1) * rowsPerPage;
+            const end = start + rowsPerPage;
+            const paginatedData = data.slice(start, end);
+            
+            let index = start + 1;
+            paginatedData.forEach(item => {
+                tbody.append(`
+                    <tr>
+                        <td>${index++}</td>
+                        <td>${item.itemName}</td>
+                        <td>${item.quantity}</td>
+                        <td>$${item.totalPrice.toFixed(2)}</td>
+                    </tr>
+                `);
+            });
+        }
+
+        // Function to setup pagination
+        function setupPagination(data) {
+            const pagination = $('#pagination');
+            pagination.empty(); // Clear previous pagination
+            const totalPages = Math.ceil(data.length / rowsPerPage);
+
+            for (let i = 1; i <= totalPages; i++) {
+                pagination.append(`
+                    <li class="page-item ${i === currentPage ? 'active' : ''}">
+                        <a class="page-link" href="#" data-page="${i}">${i}</a>
+                    </li>
+                `);
+            }
+        }
+
+        $(document).ready(function () {
+            const dateFilter = $('#dateFilter');
+
+            // Retrieve data from the existing tableData and store it in new local storage
+            const storedTableData = JSON.parse(localStorage.getItem("tableData")) || [];
+            const salesReportData = JSON.parse(localStorage.getItem("salesReportData")) || [];
+
+            // Add items to salesReportData based on the existing tableData
+            storedTableData.forEach(item => {
+                const exists = salesReportData.some(reportItem => reportItem.itemName === item.itemName && reportItem.date === item.date);
+                if (!exists) {
+                    salesReportData.push(item);
+                }
+            });
+
+            // Save updated sales report data to local storage
+            localStorage.setItem("salesReportData", JSON.stringify(salesReportData));
+
+            // Initially display all data
+            const allData = filterData('all');
+            displayData(allData);
+            setupPagination(allData);
+
+            // Event listener for dropdown filter
+            dateFilter.on('change', function () {
+                const selectedFilter = $(this).val();
+                const filteredData = filterData(selectedFilter);
+                currentPage = 1; // Reset to first page
+                displayData(filteredData);
+                setupPagination(filteredData);
+            });
+
+            // Event listener for pagination
+            $(document).on('click', '.page-link', function (e) {
+                e.preventDefault();
+                currentPage = parseInt($(this).data('page'));
+                const filteredData = filterData(dateFilter.val());
+                displayData(filteredData);
+                setupPagination(filteredData);
+            });
         });
     </script>
 </body>
