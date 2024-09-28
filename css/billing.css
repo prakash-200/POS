@@ -269,6 +269,10 @@ center{
     flex-direction: column;
 }
 
+.box13-btn1, .box14-btn1{
+    height: 90%;
+}
+
 .box1 button,
 .box4 button,
 .box5 button,
