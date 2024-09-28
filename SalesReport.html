@@ -94,7 +94,7 @@
         // Function to display data in the table
         function displayData(data) {
             const tbody = $('#reportBody');
-            tbody.empty(); // Clear previous data
+            tbody.empty(); 
             
             const start = (currentPage - 1) * rowsPerPage;
             const end = start + rowsPerPage;
@@ -116,7 +116,7 @@
         // Function to setup pagination
         function setupPagination(data) {
             const pagination = $('#pagination');
-            pagination.empty(); // Clear previous pagination
+            pagination.empty(); 
             const totalPages = Math.ceil(data.length / rowsPerPage);
 
             for (let i = 1; i <= totalPages; i++) {
@@ -155,7 +155,7 @@
             dateFilter.on('change', function () {
                 const selectedFilter = $(this).val();
                 const filteredData = filterData(selectedFilter);
-                currentPage = 1; // Reset to first page
+                currentPage = 1; 
                 displayData(filteredData);
                 setupPagination(filteredData);
             });

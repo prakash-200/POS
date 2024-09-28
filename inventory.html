@@ -142,23 +142,23 @@
       
       $(document).ready(function () {
   let inventory = JSON.parse(localStorage.getItem("inventory")) || [];
-  let itemsPerPage = 10; // Default items per page
+  let itemsPerPage = 10; 
   let currentPage = 1;
   let itemIdToDelete = null;
 
   // Ensure each item in inventory has a 'date' field (for demonstration, assume today)
   inventory.forEach((item) => {
     if (!item.date) {
-      item.date = new Date().toISOString().split("T")[0]; // Default to today's date (YYYY-MM-DD format)
+      item.date = new Date().toISOString().split("T")[0];
     }
   });
-  localStorage.setItem("inventory", JSON.stringify(inventory)); // Save updated items with date
+  localStorage.setItem("inventory", JSON.stringify(inventory)); 
 
   // Pagination options dropdown event
   $("#paginationDropdown").change(function () {
     const selectedValue = $(this).val();
-    itemsPerPage = selectedValue === "all" ? inventory.length : parseInt(selectedValue); // Set to inventory length if 'All' is selected
-    currentPage = 1; // Reset to first page when itemsPerPage changes
+    itemsPerPage = selectedValue === "all" ? inventory.length : parseInt(selectedValue); 
+    currentPage = 1; 
     populateTable(currentPage);
   });
 
@@ -168,7 +168,7 @@
     const paginatedItems =
       itemsPerPage === inventory.length
         ? filteredInventory
-        : filteredInventory.slice(start, end); // Handle "All" case
+        : filteredInventory.slice(start, end); 
 
     const tableBody = $("#inventoryTable");
     tableBody.empty();
@@ -277,10 +277,10 @@
         // Ensure each item in inventory has a 'date' field (for demonstration, assume today)
         inventory.forEach((item) => {
           if (!item.date) {
-            item.date = new Date().toISOString().split("T")[0]; // Default to today's date (YYYY-MM-DD format)
+            item.date = new Date().toISOString().split("T")[0]; 
           }
         });
-        localStorage.setItem("inventory", JSON.stringify(inventory)); // Save updated items with date
+        localStorage.setItem("inventory", JSON.stringify(inventory)); 
 
         function populateTable(page = 1, filteredInventory = inventory) {
           const start = (page - 1) * itemsPerPage;
@@ -459,7 +459,7 @@ $("#fromDate, #toDate").on("change", function () {
             inventory = inventory.filter((item) => item.id !== itemIdToDelete);
             localStorage.setItem("inventory", JSON.stringify(inventory));
             $("#deleteModal").modal("hide");
-            populateTable(currentPage); // Refresh the table after deletion
+            populateTable(currentPage); 
           }
         });
 

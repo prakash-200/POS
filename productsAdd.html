@@ -72,14 +72,14 @@
                 // If category is 'Drinks', make the image field required and enabled
                 if (category === 'Drinks') {
                     $('#itemImage').attr('required', true);
-                    $('#itemImage').prop('disabled', false); // Enable the image field
-                    $('#imageError').show(); // Show the error message
+                    $('#itemImage').prop('disabled', false); 
+                    $('#imageError').show(); 
                 } 
                 // If category is 'Snacks', disable the image field and remove the required attribute
                 else if (category === 'Snacks') {
                     $('#itemImage').removeAttr('required');
-                    $('#itemImage').prop('disabled', true); // Disable the image field
-                    $('#imageError').hide(); // Hide the error message
+                    $('#itemImage').prop('disabled', true); 
+                    $('#imageError').hide(); 
                 }
             });
 
@@ -108,7 +108,7 @@
                         purchased: itemPurchased,
                         sold: itemSold,
                         category: itemCategory,
-                        image: itemCategory === 'Drinks' ? event.target.result : null // Only add image for Drinks
+                        image: itemCategory === 'Drinks' ? event.target.result : null 
                     };
 
                     // Retrieve existing inventory or initialize a new array
@@ -124,7 +124,6 @@
                 if (itemCategory === 'Drinks' && itemImage) {
                     reader.readAsDataURL(itemImage);
                 } else {
-                    // Skip image if it's not required for Snacks
                     const newItem = {
                         id: Date.now(),
                         name: itemName,

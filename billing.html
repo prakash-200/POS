@@ -234,7 +234,7 @@
   // Display Images under inventory
   function displayInventoryItems() {
     const inventoryDiv = $(".inventory");
-    const snackNames = []; // Array to hold snack names for scrolling
+    const snackNames = []; 
 
     inventory.forEach((item) => {
       if (item.category === "Drinks") {
@@ -243,7 +243,7 @@
           `<button class="image" style="height: 100px; width: 200px;" data-name="${item.name.toLowerCase()}" data-price="${item.price}"><img src="${item.image}" alt="${item.name}" class="items" /></button>`
         );
       } else if (item.category === "Snacks") {
-        snackNames.push(item.name); // Add snack names to the array
+        snackNames.push(item.name); 
       }
     });
 
@@ -258,16 +258,9 @@
 
   // Update total cost and display it
   function updateTotalCost(amount) {
-    totalCost += amount; // Update total cost
-    $("#payableAmount").text(totalCost.toFixed(2)); // Update displayed total price
+    totalCost += amount; 
+    $("#payableAmount").text(totalCost.toFixed(2)); 
   }
-
-      // Function to check if the table is empty and enable/disable the Bill button
-function updateBillButtonState() {
-  const isTableEmpty = $("#addedItemsBody tr").length === 0; // Check if there are no rows in the table
-  $("#billButton").prop("disabled", isTableEmpty); // Disable the button if the table is empty
-}
-
 
   // Add item to billing table
   $("#addItem").on("click", function (e) {
@@ -293,26 +286,26 @@ function updateBillButtonState() {
       }
     // Check if the item already exists in the table
     const existingRow = $("#addedItemsBody tr").filter(function () {
-      return $(this).find("td:first").text() === itemName; // Match item name
+      return $(this).find("td:first").text() === itemName; 
     });
 
     if (existingRow.length) {
       // If item exists, update the quantity and total price
       const existingQuantity = parseInt(existingRow.find("td:eq(1)").text());
-      const newQuantity = existingQuantity + quantity; // Update quantity
-      const totalItemPrice = itemPrice * newQuantity; // Calculate new total price
+      const newQuantity = existingQuantity + quantity; 
+      const totalItemPrice = itemPrice * newQuantity; 
 
       // Update the existing row
-      existingRow.find("td:eq(1)").text(newQuantity); // Update quantity cell
-      existingRow.find("td:eq(3)").text(`$${totalItemPrice.toFixed(2)}`); // Update total price cell
+      existingRow.find("td:eq(1)").text(newQuantity); 
+      existingRow.find("td:eq(3)").text(`$${totalItemPrice.toFixed(2)}`); 
 
       // Update total cost
-      updateTotalCost(totalItemPrice - existingQuantity * itemPrice); // Update total cost based on new total price
+      updateTotalCost(totalItemPrice - existingQuantity * itemPrice); 
     } else {
       // If item doesn't exist, add a new row
-      const totalItemPrice = itemPrice * quantity; // Calculate total price for new item
+      const totalItemPrice = itemPrice * quantity; 
 
-      updateTotalCost(totalItemPrice); // Update total cost
+      updateTotalCost(totalItemPrice);
       $("#addedItemsBody").append(`
         <tr>
           <td>${itemName}</td>
@@ -324,8 +317,8 @@ function updateBillButtonState() {
     }
 
           // Update inventory stock
-          item.sold = Number(item.sold)+quantity; // Increase sold quantity by the added quantity
-      localStorage.setItem("inventory", JSON.stringify(inventory)); // Update inventory in local storage
+          item.sold = Number(item.sold)+quantity; 
+      localStorage.setItem("inventory", JSON.stringify(inventory)); 
   
     $("#quantity").val(1);
     updateBillButtonState();
@@ -336,21 +329,21 @@ function updateBillButtonState() {
     const itemName = $(this).data("name");
     const itemPrice = parseFloat($(this).data("price"));
     $("#itemName").val(itemName);
-    $("#quantity").val(1); // Set default quantity to 1
-    $("#addItem").trigger("click"); // Add item to table
+    $("#quantity").val(1); 
+    $("#addItem").trigger("click"); 
   });
 
   // Handle click event for category items (snack items)
   $(document).on("click", ".category-item", function () {
-    const categoryValue = $(this).data("value"); // Get the snack name
+    const categoryValue = $(this).data("value"); 
     const itemPrice = parseFloat(inventory.find((item) => item.name.toLowerCase() === categoryValue.toLowerCase()).price);
 
     // Set the item name and quantity to 1
     $("#itemName").val(categoryValue.toLowerCase());
-    $("#quantity").val(1); // Set default quantity to 1
+    $("#quantity").val(1); 
 
     // Add item to billing table
-    $("#addItem").trigger("click"); // Trigger click on "Add Item" button
+    $("#addItem").trigger("click"); 
   });
 
   // For click num button to load input field
@@ -366,7 +359,7 @@ function updateBillButtonState() {
 
   // AC button functionality to remove last digit
   $("#removeButton").on("click", function (e) {
-    e.preventDefault(); // Prevent default form submission
+    e.preventDefault(); 
     let currentQuantity = $("#quantity").val();
     // Remove the last digit or reset to 0 if no digits are left
     if (currentQuantity.length > 1) {
@@ -378,20 +371,19 @@ function updateBillButtonState() {
 
   // Clear button functionality to remove entire number
   $("#clearButton").on("click", function (e) {
-    e.preventDefault(); // Prevent default form submission
-    $("#quantity").val("0"); // Set quantity to 0
+    e.preventDefault(); 
+    $("#quantity").val("0");
   });
 
   // Cancel Item button functionality to remove the last row from the table
   $("#cancelItem").on("click", function (e) {
-    e.preventDefault(); // Prevent default form submission
-    const lastRow = $("#addedItemsBody tr").last(); // Get the last row in the table
-
+    e.preventDefault(); 
+    const lastRow = $("#addedItemsBody tr").last(); 
     if (lastRow.length) {
       // Check if there is a last row
-      const totalRowPrice = parseFloat(lastRow.find("td:last").text().replace("$", "")); // Get the total price from the last row
-      updateTotalCost(-totalRowPrice); // Deduct the total price from totalCost
-      lastRow.remove(); // Remove the last row from the table
+      const totalRowPrice = parseFloat(lastRow.find("td:last").text().replace("$", ""));
+      updateTotalCost(-totalRowPrice); 
+      lastRow.remove(); 
     }
   });
 
@@ -399,17 +391,22 @@ function updateBillButtonState() {
   $(".box8-btn1").on("click", function (e) {
     e.preventDefault(); // Prevent default anchor behavior
 
+    // Check if the billing table is empty
+if ($("#addedItemsBody tr").length === 0) {
+        alert("Add Items in Table !!!"); 
+        return;
+    }
     // Gather table data
     const tableData = [];
     $("#addedItemsBody tr").each(function () {
-      const itemName = $(this).find("td:eq(0)").text(); // Get item name
-      const quantity = parseInt($(this).find("td:eq(1)").text()); // Get quantity
-      const unitPrice = parseFloat($(this).find("td:eq(2)").text().replace("$", "")); // Get unit price
-      const totalPrice = parseFloat($(this).find("td:eq(3)").text().replace("$", "")); // Get total price
+      const itemName = $(this).find("td:eq(0)").text(); 
+      const quantity = parseInt($(this).find("td:eq(1)").text()); 
+      const unitPrice = parseFloat($(this).find("td:eq(2)").text().replace("$", "")); 
+      const totalPrice = parseFloat($(this).find("td:eq(3)").text().replace("$", "")); 
 
      // Get today's date
   const today = new Date();
-  const dateString = today.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+  const dateString = today.toISOString().split('T')[0]; 
 
   // Add the item as an object to the array, including the date
   tableData.push({ itemName, quantity, unitPrice, totalPrice, date: dateString });
@@ -417,8 +414,8 @@ function updateBillButtonState() {
 
 
     // Store the table data and total amount in localStorage
-    localStorage.setItem("tableData", JSON.stringify(tableData)); // Store table data
-    localStorage.setItem("totalAmount", totalCost.toFixed(2)); // Store total amount
+    localStorage.setItem("tableData", JSON.stringify(tableData)); 
+    localStorage.setItem("totalAmount", totalCost.toFixed(2)); 
 
     console.log(tableData);
     
@@ -433,7 +430,7 @@ function updateBillButtonState() {
   });
 
   $(document).ready(function () {
-    const scrollAmount = 20; // The amount to scroll up/down in pixels
+    const scrollAmount = 20; 
 
     // Scroll up functionality
     $(".scroll-up").on("click", function () {
@@ -442,7 +439,7 @@ function updateBillButtonState() {
           scrollTop: "-=" + scrollAmount,
         },
         200
-      ); // Adjust scroll speed if needed
+      ); 
     });
 
     // Scroll down functionality
@@ -452,28 +449,23 @@ function updateBillButtonState() {
           scrollTop: "+=" + scrollAmount,
         },
         200
-      ); // Adjust scroll speed if needed
+      ); 
     });
   });
 
   // Smooth scroll for the mouse wheel
   $(".scrollable-categories").on("wheel", function (e) {
-    e.preventDefault(); // Prevent default scroll behavior
-    const delta = e.originalEvent.deltaY; // Get the scroll amount
+    e.preventDefault(); 
+    const delta = e.originalEvent.deltaY; 
 
     $(this).animate(
       {
         scrollTop: $(this).scrollTop() + delta,
       },
       100
-    ); // Adjust speed as necessary
+    );
   });
 
-  $(document).ready(function () {
-  // populateItemDropdown();
-  // displayInventoryItems();
-  updateBillButtonState(); // Initialize Bill button state
-});
 </script>
 
   </body>

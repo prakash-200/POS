@@ -22,8 +22,6 @@
     <main>
       <div class="left-section vh-100">
         <div class="bill h-50" id="billContent">
-          
-        
           <div class="left-start-section">
             <div class="total-price fw-bold">
               <div class="grp mx-2">Change: <span id="balance">0.00</span></div>
@@ -134,10 +132,18 @@
             </div>
             <div class="left-end-bottom-end">
               <div>
-                <button name="ac" id="removeButton" style="padding-right: 50px;">AC</button>
+                <button name="ac" id="removeButton" style="padding-right: 50px">
+                  AC
+                </button>
               </div>
               <div>
-                <button name="clear" id="clearButton" style="padding-right: 50px;">Clear</button>
+                <button
+                  name="clear"
+                  id="clearButton"
+                  style="padding-right: 50px"
+                >
+                  Clear
+                </button>
               </div>
             </div>
           </div>
@@ -245,7 +251,7 @@
       // Function to display inventory items from local storage
       function displayInventoryItems() {
         const inventoryDiv = $(".inventory");
-        inventoryDiv.empty(); // Clear existing content
+        inventoryDiv.empty();
 
         // Get inventory data from local storage
         const inventoryItems =
@@ -281,10 +287,11 @@
           );
         });
       }
+
       // Display Images under inventory
       function displayInventoryItems() {
         const inventoryDiv = $(".inventory");
-        const snackNames = []; // Array to hold snack names for scrolling
+        const snackNames = [];
 
         inventory.forEach((item) => {
           if (item.category === "Drinks") {
@@ -316,7 +323,7 @@
       });
 
       $(document).ready(function () {
-        const scrollAmount = 30; // The amount to scroll up/down in pixels
+        const scrollAmount = 30;
 
         // Scroll up functionality
         $(".scroll-up").on("click", function () {
@@ -341,15 +348,15 @@
 
       // Smooth scroll for the mouse wheel
       $(".scrollable-categories").on("wheel", function (e) {
-        e.preventDefault(); // Prevent default scroll behavior
-        const delta = e.originalEvent.deltaY; // Get the scroll amount
+        e.preventDefault();
+        const delta = e.originalEvent.deltaY;
 
         $(this).animate(
           {
-            scrollTop: $(this).scrollTop() + delta, // Animate scroll position
+            scrollTop: $(this).scrollTop() + delta,
           },
           200
-        ); // Adjust speed as necessary
+        );
       });
 
       // For display amount from local storage
@@ -371,12 +378,9 @@
         $("#payableAmount").text(`$${payableAmount.toFixed(2)}`);
       });
 
-      // Existing variables
-      let tenderAmount = 0;
-
       // Function to update tender amount and balance
+      let tenderAmount = 0;
       function updateTender(value) {
-        // Add the clicked button value to the tender amount
         tenderAmount += value;
 
         // Display the updated tender amount
@@ -407,39 +411,47 @@
         updateTender(10);
       });
 
+      // store Bill to local storage
+      document
+        .getElementById("saveButton")
+        .addEventListener("click", function () {
+          // Retrieve values from the respective elements
+          const amount = document
+            .getElementById("amount")
+            .innerText.replace("$", "");
+          const gstAmount = document
+            .getElementById("gstAmount")
+            .innerText.replace("$", "");
+          const payableAmount = document
+            .getElementById("payableAmount")
+            .innerText.replace("$", "");
+          const tender = document
+            .getElementById("tender")
+            .innerText.replace("$", "");
+          const change = document
+            .getElementById("change")
+            .innerText.replace("$", "");
 
+          // Create an object to hold the data
+          const billingData = {
+            amount: parseFloat(amount),
+            gstAmount: parseFloat(gstAmount),
+            payableAmount: parseFloat(payableAmount),
+            tender: parseFloat(tender),
+            change: parseFloat(change),
+          };
 
+          // Store the object in local storage as a JSON string
+          localStorage.setItem("billingData", JSON.stringify(billingData));
 
+          console.log("Stored Successfully!!!");
+        });
 
-// store Bill to local storage
-      document.getElementById('saveButton').addEventListener('click', function() {
-  // Retrieve values from the respective elements
-  const amount = document.getElementById('amount').innerText.replace('$', '');
-  const gstAmount = document.getElementById('gstAmount').innerText.replace('$', '');
-  const payableAmount = document.getElementById('payableAmount').innerText.replace('$', '');
-  const tender = document.getElementById('tender').innerText.replace('$', '');
-  const change = document.getElementById('change').innerText.replace('$', '');
-
-  // Create an object to hold the data
-  const billingData = {
-    amount: parseFloat(amount),
-    gstAmount: parseFloat(gstAmount),
-    payableAmount: parseFloat(payableAmount),
-    tender: parseFloat(tender),
-    change: parseFloat(change)
-  };
-
-  // Store the object in local storage as a JSON string
-  localStorage.setItem('billingData', JSON.stringify(billingData));
-
-  console.log("Stored Successfully!!!");
-  
-  });
-
-  // for redirect to print page
-  document.getElementById('saveButton').addEventListener('click', function() {
-            // Redirect to the bill page and automatically trigger the print dialog
-            window.location.href = 'printBill.html';  // Change 'billPage.html' to the actual path of your bill page
+      // for redirect to print page
+      document
+        .getElementById("saveButton")
+        .addEventListener("click", function () {
+          window.location.href = "printBill.html";
         });
 
       // Print Bill
@@ -456,7 +468,7 @@
         // Temporarily replace the entire body content with the bill content
         document.body.innerHTML = printContents;
 
-        window.print(); // Trigger the print dialog
+        window.print();
 
         // Restore the original content after printing
         document.body.innerHTML = originalContents;
@@ -464,24 +476,26 @@
 
       // For Sales record page
       $("#newBillButton").click(function () {
-    const tableData = [];
-    $("#addedItemsBody tr").each(function () {
-      const itemName = $(this).find("td:eq(0)").text();
-      const quantity = parseInt($(this).find("td:eq(1)").text());
-      const unitPrice = parseFloat($(this).find("td:eq(2)").text().replace("$", ""));
-      const totalPrice = parseFloat($(this).find("td:eq(3)").text().replace("$", ""));
-      tableData.push({ itemName, quantity, unitPrice, totalPrice });
-    });
-  
-    // Store the table data and total amount in localStorage
-    localStorage.setItem("tableData", JSON.stringify(tableData));
-    localStorage.setItem("totalAmount", totalCost.toFixed(2));
-  
-    // Navigate to the bill records page
-    window.location.href = "SalesReport.html"; // Adjust this URL as needed
-  });
-      
+        const tableData = [];
+        $("#addedItemsBody tr").each(function () {
+          const itemName = $(this).find("td:eq(0)").text();
+          const quantity = parseInt($(this).find("td:eq(1)").text());
+          const unitPrice = parseFloat(
+            $(this).find("td:eq(2)").text().replace("$", "")
+          );
+          const totalPrice = parseFloat(
+            $(this).find("td:eq(3)").text().replace("$", "")
+          );
+          tableData.push({ itemName, quantity, unitPrice, totalPrice });
+        });
 
+        // Store the table data and total amount in localStorage
+        localStorage.setItem("tableData", JSON.stringify(tableData));
+        localStorage.setItem("totalAmount", totalCost.toFixed(2));
+
+        // Navigate to the bill records page
+        window.location.href = "SalesReport.html";
+      });
     </script>
   </body>
 </html>

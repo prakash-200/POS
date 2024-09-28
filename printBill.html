@@ -66,7 +66,7 @@
             const totalAmount = localStorage.getItem("totalAmount") || "0.00";
       
             const addedItemsBody = $("#addedItemsBody");
-            addedItemsBody.empty();  // Clear previous content
+            addedItemsBody.empty();  
       
             tableData.forEach((item) => {
                 addedItemsBody.append(`
@@ -90,7 +90,7 @@
             if (storedData) {
                 const billingData = JSON.parse(storedData);
                 const tableBody = document.getElementById('billingTableBody');
-                tableBody.innerHTML = '';  // Clear the existing table rows
+                tableBody.innerHTML = '';  
 
                 // Append the labels and corresponding values in a two-column format
                 tableBody.innerHTML = `
